@@ -2,7 +2,7 @@ funkcja <- function(A)
   {
     if(class(A)!='matrix')
      {
-     print('Musisz podaæ ci¹g macierzy w liœcie')
+     print('A need to be matrix')
      }
     else
      {
