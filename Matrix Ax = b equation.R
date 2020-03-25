@@ -1,3 +1,15 @@
+#wpisz macierz!!!
+A <- matrix(data=c(2,1,5,3),nrow =2,ncol=2,byrow=TRUE)
+#ustaw odpowiednią ścieżkę dostępu
+setwd("C:/Users/Krzysiek/Desktop/github/Ax = b")
+
+# funkcja pozwalająca usunąć plik file.remove("Matrix Ax = b equation.tex")
+#funkcja tworząca plik.tex 
+file.create("Matrix Ax = b equation.tex")
+funkcja(A)
+#pokazanie wyniku
+file.show("Matrix Ax = b equation.tex")
+#kod funkcji
 funkcja <- function(A)
   {
     if(class(A)!='matrix')
@@ -14,17 +26,10 @@ funkcja <- function(A)
 \\usepackage[T1]{fontenc}
 \\begin{document}
 \\begin{LARGE}
-\\begin{center}\\textbf{Inverse Matrix}\\\\\\end{center}
-\\end{LARGE}',file='macierz_odwrotna.tex',append=TRUE)
-      if(dim(A)[1] != dim(A)[2])
-        {
-        write('Matrix must be square',file='macierz_odwrotna.tex',append=TRUE)
-        cat('\\end{document}',file='macierz_odwrotna.tex',append=TRUE)
-        print("Matrix muste be square")
-        }
-      else
-        {
-          write("Matrix",file='macierz_odwrotna.tex',append=TRUE)
+\\begin{center}\\textbf{Ax = b equation}\\\\\\end{center}
+\\end{LARGE}',file='Matrix Ax = b equation.tex',append=TRUE)
+          write("where b - vector and $b_j$ = j",file='Matrix Ax = b equation.tex',append=TRUE)
+          #macierz A
           znaki<- '$$\\begin{pmatrix}'
           for(i in 1:nrow(A)){
             for(n in 1:ncol(A)){
@@ -36,37 +41,48 @@ funkcja <- function(A)
               }
             }
           }
-          znaki<-paste(znaki,'\\end{pmatrix}$$')
+          znaki<-paste(znaki,'\\end{pmatrix}')
           #print(znaki)
-          write(znaki,'macierz_odwrotna.tex',append = TRUE)
-          write("Inverse Matrix",file='macierz_odwrotna.tex',append=TRUE)
-          znaki<- '$$\\begin{pmatrix}'
-          for(i in 1:nrow(solve(A))){
-            for(n in 1:ncol(solve(A))){
-              if(n<ncol(solve(A))){
-                znaki<-paste(znaki,ceiling(solve(A)[i,n]*100)/100,'&')
-              }
-              if(n==ncol(solve(A))){
-                znaki<-paste(znaki,ceiling(solve(A)[i,n]*100)/100,'\\\\')
-              }
-            }
+          write(znaki,'Matrix Ax = b equation.tex',append = TRUE)
+          
+         
+          
+          #macierz x
+          znaki<- '* \\begin{pmatrix}'
+          for(i in 1:nrow(b)){
+            znaki<-paste(znaki,ceiling(solve(A,b)[i][1]*100)/100,'\\\\')
           }
-          znaki<-paste(znaki,'\\end{pmatrix}$$')
-          #print(znaki)
-          write(znaki,'macierz_odwrotna.tex',append = TRUE)
-          cat('\\end{document}',file='macierz_odwrotna.tex',append=TRUE)
-          print("Matrix:")
-          print(A)
-          print("Inverse Matrix:")
-          print(solve(A))
-        }
+          znaki<-paste(znaki,'\\end{pmatrix}')
+          write(znaki,'Matrix Ax = b equation.tex',append = TRUE)
+          
+          write("=",file='Matrix Ax = b equation.tex',append=TRUE)
+          
+          ##macierz b
+          znaki<- ' \\begin{pmatrix}'
+          h <- c()
+          h[1] <- 1
+          for(i in 2:nrow(A)){
+            h[i]=i
+          }
+          b <- t(t(h))
+          for(i in 1:nrow(b)){
+            znaki<-paste(znaki,h[i][1],'\\\\')
+          }
+          znaki<-paste(znaki,'\\end{pmatrix} $$')
+          write(znaki,'Matrix Ax = b equation.tex',append = TRUE)
+          write("so $$ x = ",file='Matrix Ax = b equation.tex',append=TRUE)
+          
+          #wynik ostateczny
+          znaki<- ' \\begin{pmatrix}'
+          for(i in 1:nrow(b)){
+            znaki<-paste(znaki,ceiling(solve(A,b)[i][1]*100)/100,'\\\\')
+          }
+          znaki<-paste(znaki,'\\end{pmatrix}')
+          write(znaki,'Matrix Ax = b equation.tex',append = TRUE)
+          
+          cat('$$ \\end{document}',file='Matrix Ax = b equation.tex',append=TRUE)
+
+        
      }
 }
-#wpisz macierz!!!
-A <- matrix(data=c(2,1,5,3),nrow =2,ncol=2,byrow=TRUE)
-setwd("C:/Users/Krzysiek/desktop/github/macierz odwrotna")
-file.create('macierz_odwrotna.tex')
-funkcja(A)
-file.show('macierz_odwrotna.tex')
-file.remove('macierz_odwrotna.tex')
 
